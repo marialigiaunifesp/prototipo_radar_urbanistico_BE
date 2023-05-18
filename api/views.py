@@ -33,7 +33,7 @@ def formCreate(request):
 
 	return Response(serializer.data)
 
-@api_view(['DELETE'])
+@api_view(['GET', 'DELETE'])
 def formDelete(request, pk):
 	try:
 		row = Form.objects.get(id = pk)

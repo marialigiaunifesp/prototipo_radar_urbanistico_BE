@@ -8,7 +8,7 @@ class Form(models.Model):
 	valor  = models.CharField(max_length = 70)
 	areaAnalise = models.CharField(max_length = 70, blank = True, null = True)
 	dataDocumento = models.CharField(max_length = 70)
-	referencia = models.CharField(max_length = 700)
+	referencia = models.CharField(max_length = 70)
 	
 	def __str__(self):
 		return documento

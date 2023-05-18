@@ -7,4 +7,4 @@ urlpatterns = [
 	path('form-create/', views.formCreate, name = "form-create"),
 	path('form-delete/<str:pk>/', views.formDelete, name = "form-delete"),
 	
-]
+]		
