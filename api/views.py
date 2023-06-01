@@ -4,7 +4,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import FormSerializer
+'''from .serializers import FormSerializer
 from .models import Form
 
 
@@ -60,4 +60,4 @@ def formUpdate(request, pk):
 		serializer.data
 		
 
-	return Response(200)
+	return Response(200)'''
