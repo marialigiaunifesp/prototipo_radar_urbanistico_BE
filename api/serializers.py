@@ -1,22 +1,6 @@
 from rest_framework import serializers
 from .models import *
 
-'''
-class Form:
-	def __init__(self, variavel, valor, dataDocumento, referencia, documento, areaAnalise = None, coordinates = None):
-		self.variavel = variavel
-		self.valor = valor
-		self.areaAnalise = areaAnalise
-		self.dataDocumento = dataDocumento
-		self.referencia = referencia
-		self.documento = documento
-		self.coordinates = coordinates
-
-class Map:
-	def __init__(self, coordinates):
-		self.coordinates = coordinates
-'''
-
 class MatriculaSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = MatriculaImovel
