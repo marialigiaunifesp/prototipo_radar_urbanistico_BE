@@ -10,14 +10,17 @@ from .models import *
 @api_view(['POST'])
 @csrf_exempt
 def formCreate(request):
+	# print(request.data)
 	serializer = FormSerializer(data = request.data)
-
 	if(serializer.is_valid()):
 		obj = serializer.save()
 		return Response(serializer.data, status = status.HTTP_201_CREATED)
 	
 	else:
 		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+
 '''
 @api_view(['POST'])
 @csrf_exempt
