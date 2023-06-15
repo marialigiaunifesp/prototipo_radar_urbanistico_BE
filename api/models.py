@@ -5,7 +5,8 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.db import models
+# from django.db import models
+from django.contrib.gis.db import models
 
 
 class AreaAnalise(models.Model):
@@ -121,7 +122,7 @@ class Documento(models.Model):
     id_datageo = models.ForeignKey(Datageo, models.DO_NOTHING, db_column='id_datageo', blank=True, null=True)
     id_diversas_fontes = models.ForeignKey(DiversasFontes, models.DO_NOTHING, db_column='id_diversas_fontes', blank=True, null=True)
     id_srid_projecao = models.ForeignKey('SpatialRefSys', models.DO_NOTHING, db_column='id_srid_projecao', blank=True, null=True)
-    coordinates = models.TextField(blank=True, null=True)  # This field type is a guess.
+    coordinates = models.PointField(blank=True, null=True)
     data_atualizacao = models.DateField(blank=True, null=True)
     ultima_versao = models.BooleanField(blank=True, null=True)
 

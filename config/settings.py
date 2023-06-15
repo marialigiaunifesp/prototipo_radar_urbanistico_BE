@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+
     'corsheaders',
     'api.apps.ApiConfig',
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
 
     # Rest 
     'rest_framework',
@@ -88,7 +90,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'db_m2p4',
         'USER': 'usuario_teste',
         'PASSWORD': 'xd7iUPV7Jih5c7iFOqyLKQuiEb4ElRXu',
@@ -99,7 +101,7 @@ DATABASES = {
         }
     },
     'django': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'db_m2p4',
         'USER': 'usuario_teste',
         'PASSWORD': 'xd7iUPV7Jih5c7iFOqyLKQuiEb4ElRXu',
