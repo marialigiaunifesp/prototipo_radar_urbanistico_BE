@@ -267,7 +267,6 @@ class CoordinateSerializer(serializers.Serializer):
 	features = FeatureSerializer(many = True)
 
 	def save(self):
-		a = self.validated_data['features'][0]['geometry']['coordinates']
 
 		if('features' in self.validated_data):
 			if('geometry' in self.validated_data['features'][0]):
@@ -275,14 +274,8 @@ class CoordinateSerializer(serializers.Serializer):
 					coord_obj = self.validated_data['features'][0]['geometry']['coordinates']
 					coord_instance = Documento(coordinates = Point(coord_obj[0], coord_obj[1]))
 					coord_instance.save()
-					pass
-				else:
-					print('not coordinates')
-			else:
-				print('not geometry')
-		else:
-			print('not features')
-
+		
+		return coord_instance
 
 
 '''
