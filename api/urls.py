@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
 	path('form-create/', views.formCreate, name = "form-create"),
-	# path('map-create/', views.mapCreate, name = "map-create")
+	path('coordinate-create/', views.coordinateCreate, name = "coordinate-create")
 
 ]
 '''

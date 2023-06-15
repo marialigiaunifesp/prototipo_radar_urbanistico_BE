@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from django.contrib.gis.geos import Point
 
 '''
 # MODEL-BASED SERIALIZERS
@@ -247,17 +248,41 @@ class FormSerializer(serializers.Serializer):
 			vistoria_instance = Vistoria.objects.create(**vistoria_obj)
 
 
-		'''
+		
 		# Save to database
-		doc.save()
-		history.save()
-		'''
+		# doc.save()
+		# history.save()
 		return doc
 		
 
+class GeometrySerializer(serializers.Serializer):
+	coordinates = serializers.ListField(
+		child = serializers.FloatField()
+	)
 
-	# documento = serializers.CharField()
-	# coordinates = serializers.ListField(child = serializers.FloatField())
+class FeatureSerializer(serializers.Serializer):
+	geometry = GeometrySerializer()
+
+class CoordinateSerializer(serializers.Serializer):
+	features = FeatureSerializer(many = True)
+
+	def save(self):
+		a = self.validated_data['features'][0]['geometry']['coordinates']
+
+		if('features' in self.validated_data):
+			if('geometry' in self.validated_data['features'][0]):
+				if('coordinates' in self.validated_data['features'][0]['geometry']):
+					coord_obj = self.validated_data['features'][0]['geometry']['coordinates']
+					coord_instance = Documento(coordinates = Point(coord_obj[0], coord_obj[1]))
+					coord_instance.save()
+					pass
+				else:
+					print('not coordinates')
+			else:
+				print('not geometry')
+		else:
+			print('not features')
+
 
 
 '''
