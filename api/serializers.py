@@ -16,20 +16,31 @@ class Map:
 	def __init__(self, coordinates):
 		self.coordinates = coordinates
 '''
+class OficioSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Oficio
+		fields = '__all__'
+
+
 class FormSerializer(serializers.Serializer):
 	dataDocumento = serializers.CharField()
 	referencia = serializers.CharField()
+	oficio = OficioSerializer()
 
 	def save(self):
-		cv = CadastroVersao(
-			data_atualizacao = self.validated_data['dataDocumento'],
-			status = self.validated_data['referencia']
-			)
+		oficio = self.validated_data['oficio']
+		doc = Documento(data_atualizacao = self.validated_data[	'dataDocumento'])
+		history = AreaAnalise(referencia = self.validated_data['referencia'])
+		
+		# this creates 
+		# oficio_instance = Oficio.objects.create(**oficio)
+
 		'''
 		# Save to database
-		cv.save()
+		doc.save()
+		history.save()
 		'''
-		return cv
+		return doc
 		
 
 
