@@ -114,29 +114,84 @@ class FormSerializer(serializers.Serializer):
 	referencia = serializers.CharField()
 
 	# Nested
-	oficio = OficioSerializer(required = False)
+	boletim_oficial = BoletimOficialSerializer(required = False)
+	conhecimento_lugar = ConhecimentoLugarSerializer(required = False)
 	contrato_compra_venda = ContratoSerializer(required = False)
+	datageo = DatageoSerializer(required = False)
+	datageo_ambiente = DatageoAmbienteSerializer(required = False)
+	diversas_fontes = DiversasFontesSerializer(required = False)
+	ficha_socioeconomico = FichaSocioeconomicoSerializer(required = False)
+	IBGE = IbgeSerializer(required = False)
+	legislacao = LegislacaoSerializer(required = False)
 	matricula_imovel = MatriculaSerializer(required = False)
+	oficio = OficioSerializer(required = False)
+	processo_administrativo = ProcessoAdministrativoSerializer(required = False)
+	processo_judicial = ProcessoJudicialSerializer(required = False)
+	vistoria = VistoriaSerializer(required = False)
 
 	def save(self):
 
 		doc = Documento(data_atualizacao = self.validated_data[	'dataDocumento'])
 		history = AreaAnalise(referencia = self.validated_data['referencia'])
 		
-		if('oficio' in self.validated_data):
-			oficio_obj = self.validated_data['oficio']
-			# creates instance 
-			# oficio_instance = Oficio.objects.create(**oficio)
+		if('boletim_oficial' in self.validated_data):
+			boletim_oficial_obj = self.validated_data['boletim_oficial']
+			boletim_oficial_instance = BoletimOficial.objects.create(**boletim_oficial_obj)
+
+
+		if('conhecimento_lugar' in self.validated_data):
+			conhecimento_lugar_obj = self.validated_data['conhecimento_lugar']
+			conhecimento_lugar_instance = ConhecimentoLugar.objects.create(**conhecimento_lugar_obj)
 		
 		if('contrato_compra_venda' in self.validated_data):
 			contrato_obj = self.validated_data['contrato_compra_venda']
-			# creates instance
-			# contrato_instance = ContratoCompraVenda.objects.create(**contrato)
+			contrato_instance = ContratoCompraVenda.objects.create(**contrato_obj)
+		
+		if('datageo' in self.validated_data):
+			datageo_obj = self.validated_data['datageo']
+			datageo_instance = Datageo.objects.create(**datageo_obj)
+
+		if('datageo_ambiente' in self.validated_data):
+			datageo_ambiente_obj = self.validated_data['datageo_ambiente']
+			datageo_ambiente_instance = DatageoAmbiente.objects.create(**datageo_ambiente_obj)
+
+		if('diversas_fontes' in self.validated_data):
+			diversas_fontes_obj = self.validated_data['diversas_fontes']
+			diversas_fontes_instance = DiversasFontes.objects.create(**diversas_fontes_obj)
+
+		if('ficha_socioeconomico' in self.validated_data):
+			ficha_socioeconomico_obj = self.validated_data['ficha_socioeconomico']
+			ficha_socioeconomico_instance = FichaSocioeconomico.objects.create(**ficha_socioeconomico_obj)
+
+		if('IBGE' in self.validated_data):
+			IBGE_obj = self.validated_data['IBGE']
+			IBGE_instance = Ibge.objects.create(**IBGE_obj)
+
+		if('legislacao' in self.validated_data):
+			legislacao_obj = self.validated_data['legislacao']
+			legislacao_instance = Legislacao.objects.create(**legislacao_obj)
+
+		if('processo_administrativo' in self.validated_data):
+			processo_administrativo_obj = self.validated_data['processo_administrativo']
+			processo_administrativo_instance = ProcessoAdministrativo.objects.create(**processo_administrativo_obj)
+
 
 		if('matricula_imovel' in self.validated_data):
 			matricula_obj = self.validated_data['matricula_imovel']
-			# creates instance
-			# contrato_instance = ContratoCompraVenda.objects.create(**contrato)
+			matricula_instance = MatriculaImovel.objects.create(**matricula_obj)
+
+		if('oficio' in self.validated_data):
+			oficio_obj = self.validated_data['oficio']
+			oficio_instance = Oficio.objects.create(**oficio_obj)
+
+		if('processo_judicial' in self.validated_data):
+			processo_judicial_obj = self.validated_data['processo_judicial']
+			processo_judicial_instance = ProcessoJudicial.objects.create(**processo_judicial_obj)
+
+		if('vistoria' in self.validated_data):
+			vistoria_obj = self.validated_data['vistoria']
+			vistoria_instance = Vistoria.objects.create(**vistoria_obj)
+
 
 		'''
 		# Save to database
