@@ -94,7 +94,21 @@ DATABASES = {
         'PASSWORD': 'xd7iUPV7Jih5c7iFOqyLKQuiEb4ElRXu',
         'HOST': 'dpg-chimsud269v2e2ai4bp0-a.oregon-postgres.render.com',
         'PORT': '5432',
-    }   
+        'OPTIONS': {
+            'options' : '-c search_path=public,django'
+        }
+    },
+    'django': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'db_m2p4',
+        'USER': 'usuario_teste',
+        'PASSWORD': 'xd7iUPV7Jih5c7iFOqyLKQuiEb4ElRXu',
+        'HOST': 'dpg-chimsud269v2e2ai4bp0-a.oregon-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'options' : '-c search_path=django'
+        }
+    }  
 }
 
 
