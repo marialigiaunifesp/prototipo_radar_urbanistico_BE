@@ -1,16 +1,23 @@
 from rest_framework import serializers
 from .models import *
 
-class MatriculaSerializer(serializers.ModelSerializer):
+'''
+# MODEL-BASED SERIALIZERS
+'''
+
+# Boletim oficial
+class BoletimOficialSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = MatriculaImovel
+		model = BoletimOficial
 		fields = '__all__'
 
-	def validate(self, data):
-		if not data:
-			raise serializers.ValidationError("Must include at least one field")
-		return data
+# Conhecimento do lugar
+class ConhecimentoLugarSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ConhecimentoLugar
+		fields = '__all__'
 
+# Contrato compra venda 
 class ContratoSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ContratoCompraVenda
@@ -21,7 +28,54 @@ class ContratoSerializer(serializers.ModelSerializer):
 			raise serializers.ValidationError("Must include at least one field")
 		return data
 
+# Dados geograficos
+class DatageoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Datageo
+		fields = '__all__'
 
+# Datageo ambiente
+class DatageoAmbienteSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = DatageoAmbiente
+		fields = '__all__'
+
+# Diversas Fontes
+class DiversasFontesSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = DiversasFontes
+		fields = '__all__'
+
+# Ficha de cadastramento socioeconomico
+class FichaSocioeconomicoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = FichaSocioeconomico
+		fields = '__all__'
+
+# IBGE
+class IbgeSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Ibge
+		fields = '__all__'
+
+# Legislacao
+class LegislacaoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Legislacao
+		fields = '__all__'
+
+# Matricula do imovel
+class MatriculaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = MatriculaImovel
+		fields = '__all__'
+
+	def validate(self, data):
+		if not data:
+			raise serializers.ValidationError("Must include at least one field")
+		return data
+
+# Oficio
 class OficioSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Oficio
@@ -32,10 +86,34 @@ class OficioSerializer(serializers.ModelSerializer):
 			raise serializers.ValidationError("Must include at least one field")
 		return data
 
+#Processo Administrativo
+class ProcessoAdministrativoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ProcessoAdministrativo
+		fields = '__all__'
 
+# Processo Judicial
+class ProcessoJudicialSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = ProcessoJudicial
+		fields = '__all__'
+
+# Vistoria
+class VistoriaSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Vistoria
+		fields = '__all__'
+
+
+'''
+# CUSTOM SERIALIZERS
+'''
 class FormSerializer(serializers.Serializer):
+	# Native datypes
 	dataDocumento = serializers.CharField()
 	referencia = serializers.CharField()
+
+	# Nested
 	oficio = OficioSerializer(required = False)
 	contrato_compra_venda = ContratoSerializer(required = False)
 	matricula_imovel = MatriculaSerializer(required = False)
