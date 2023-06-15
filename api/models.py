@@ -33,6 +33,24 @@ class Arquivo(models.Model):
         db_table = 'arquivo'
 
 
+class BoletimOficial(models.Model):
+    id_boletim_oficial = models.BigAutoField(primary_key=True)
+    link_pub_edital = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'boletim_oficial'
+
+
+class ConhecimentoLugar(models.Model):
+    id_conhecimento_lugar = models.BigAutoField(primary_key=True)
+    regiao = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'conhecimento_lugar'
+
+
 class ContratoCompraVenda(models.Model):
     id_contrato_compra_venda = models.BigAutoField(primary_key=True)
     nome_empreendimento = models.TextField(blank=True, null=True)
@@ -42,13 +60,67 @@ class ContratoCompraVenda(models.Model):
         db_table = 'contrato_compra_venda'
 
 
+class Datageo(models.Model):
+    id_datageo = models.BigAutoField(primary_key=True)
+    distancia_saude_proximo = models.TextField(blank=True, null=True)
+    distancia_educacao_proximo = models.TextField(blank=True, null=True)
+    proximidade_local_atendido_transporte = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'datageo'
+
+
+class DatageoAmbiente(models.Model):
+    id_datageo_ambiente = models.BigIntegerField(primary_key=True)
+    distancia_saude_proximo = models.TextField(blank=True, null=True)
+    distancia_educacao_proximo = models.TextField(blank=True, null=True)
+    proximidade_local_atendido_transporte = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'datageo_ambiente'
+
+
+class DiversasFontes(models.Model):
+    id_diversas_fontes = models.BigAutoField(primary_key=True)
+    cpf_proprietario = models.TextField(blank=True, null=True)
+    area_imovel = models.TextField(blank=True, null=True)
+    ccir = models.TextField(blank=True, null=True)
+    unidade = models.TextField(blank=True, null=True)
+    cnpj = models.TextField(blank=True, null=True)
+    telefone_contato = models.TextField(blank=True, null=True)
+    email_contato = models.TextField(blank=True, null=True)
+    possui_planta_parcelamento = models.TextField(blank=True, null=True)
+    levantamento_planialtimetrico = models.TextField(blank=True, null=True)
+    coordinada_aproximada = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'diversas_fontes'
+
+
 class Documento(models.Model):
     id_documento = models.BigAutoField(primary_key=True)
+    id_historico = models.ForeignKey('Historico', models.DO_NOTHING, db_column='id_historico', blank=True, null=True)
+    id_area = models.ForeignKey(AreaAnalise, models.DO_NOTHING, db_column='id_area', blank=True, null=True)
+    id_usuario_criador = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_usuario_criador', blank=True, null=True)
+    id_arquivo = models.ForeignKey(Arquivo, models.DO_NOTHING, db_column='id_arquivo', blank=True, null=True)
     id_processo_judicial = models.ForeignKey('ProcessoJudicial', models.DO_NOTHING, db_column='id_processo_judicial', blank=True, null=True)
     id_matricula_imovel = models.ForeignKey('MatriculaImovel', models.DO_NOTHING, db_column='id_matricula_imovel', blank=True, null=True)
+    id_conhecimento_lugar = models.ForeignKey(ConhecimentoLugar, models.DO_NOTHING, db_column='id_conhecimento_lugar', blank=True, null=True)
     id_oficio = models.ForeignKey('Oficio', models.DO_NOTHING, db_column='id_oficio', blank=True, null=True)
     id_compra_venda = models.ForeignKey(ContratoCompraVenda, models.DO_NOTHING, db_column='id_compra_venda', blank=True, null=True)
     id_vistoria = models.ForeignKey('Vistoria', models.DO_NOTHING, db_column='id_vistoria', blank=True, null=True)
+    id_processo_administrativo = models.ForeignKey('ProcessoAdministrativo', models.DO_NOTHING, db_column='id_processo_administrativo', blank=True, null=True)
+    id_boletim_oficial = models.ForeignKey(BoletimOficial, models.DO_NOTHING, db_column='id_boletim_oficial', blank=True, null=True)
+    id_ficha_socioeconomico = models.ForeignKey('FichaSocioeconomico', models.DO_NOTHING, db_column='id_ficha_socioeconomico', blank=True, null=True)
+    id_legislacao = models.ForeignKey('Legislacao', models.DO_NOTHING, db_column='id_legislacao', blank=True, null=True)
+    id_datageo_ambiente = models.ForeignKey(DatageoAmbiente, models.DO_NOTHING, db_column='id_datageo_ambiente', blank=True, null=True)
+    id_ibge = models.ForeignKey('Ibge', models.DO_NOTHING, db_column='id_ibge', blank=True, null=True)
+    id_datageo = models.ForeignKey(Datageo, models.DO_NOTHING, db_column='id_datageo', blank=True, null=True)
+    id_diversas_fontes = models.ForeignKey(DiversasFontes, models.DO_NOTHING, db_column='id_diversas_fontes', blank=True, null=True)
+    id_srid_projecao = models.ForeignKey('SpatialRefSys', models.DO_NOTHING, db_column='id_srid_projecao', blank=True, null=True)
     coordinates = models.TextField(blank=True, null=True)  # This field type is a guess.
     data_atualizacao = models.DateField(blank=True, null=True)
     ultima_versao = models.BooleanField(blank=True, null=True)
@@ -56,6 +128,15 @@ class Documento(models.Model):
     class Meta:
         managed = False
         db_table = 'documento'
+
+
+class FichaSocioeconomico(models.Model):
+    id_ficha_socioeconomico = models.BigAutoField(primary_key=True)
+    ficha_cadastramento_individual = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ficha_socioeconomico'
 
 
 class Historico(models.Model):
@@ -66,6 +147,17 @@ class Historico(models.Model):
     class Meta:
         managed = False
         db_table = 'historico'
+
+
+class Ibge(models.Model):
+    id_ibge = models.BigAutoField(primary_key=True)
+    aglomerado_subnormal = models.TextField(blank=True, null=True)
+    area_risco = models.TextField(blank=True, null=True)
+    cod_mun = models.BigIntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ibge'
 
 
 class Instituicao(models.Model):
@@ -83,6 +175,15 @@ class Instituicao(models.Model):
     class Meta:
         managed = False
         db_table = 'instituicao'
+
+
+class Legislacao(models.Model):
+    id_legislacao = models.BigAutoField(primary_key=True)
+    zona_uso = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'legislacao'
 
 
 class MatriculaImovel(models.Model):
@@ -141,6 +242,22 @@ class Pessoa(models.Model):
     class Meta:
         managed = False
         db_table = 'pessoa'
+
+
+class ProcessoAdministrativo(models.Model):
+    id_processo_administrativo = models.BigAutoField(primary_key=True)
+    avogado_parte = models.TextField(blank=True, null=True)
+    responsavel_tecnico_parte = models.TextField(blank=True, null=True)
+    ponto_focal_moradores = models.TextField(blank=True, null=True)
+    notificacao = models.TextField(blank=True, null=True)
+    prazo_manifestacao = models.TextField(blank=True, null=True)
+    data_publicacao_notificacao = models.TextField(blank=True, null=True)
+    recurso_notificacao = models.TextField(blank=True, null=True)
+    processo_reurb = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'processo_administrativo'
 
 
 class ProcessoJudicial(models.Model):
