@@ -16,6 +16,8 @@ class Map:
 	def __init__(self, coordinates):
 		self.coordinates = coordinates
 '''
+
+
 class ContratoSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = ContratoCompraVenda
@@ -32,23 +34,32 @@ class OficioSerializer(serializers.ModelSerializer):
 		model = Oficio
 		fields = '__all__'
 
+	def validate(self, data):
+		if not data:
+			raise serializers.ValidationError("Must include at least one field")
+		return data
+
 
 class FormSerializer(serializers.Serializer):
 	dataDocumento = serializers.CharField()
 	referencia = serializers.CharField()
-	oficio = OficioSerializer()
-	contrato_compra_venda = ContratoSerializer()
+	oficio = OficioSerializer(required = False)
+	contrato_compra_venda = ContratoSerializer(required = False)
 
 	def save(self):
-		oficio = self.validated_data['oficio']
-		contrato = self.validated_data['contrato_compra_venda']
 
 		doc = Documento(data_atualizacao = self.validated_data[	'dataDocumento'])
 		history = AreaAnalise(referencia = self.validated_data['referencia'])
 		
-		# this creates 
-		# oficio_instance = Oficio.objects.create(**oficio)
-		# contrato_instance = ContratoCompraVenda.objects.create(**contrato)
+		if('oficio' in self.validated_data):
+			oficio = self.validated_data['oficio']
+			# creates instance 
+			# oficio_instance = Oficio.objects.create(**oficio)
+		
+		if('contrato_compra_venda' in self.validated_data):
+			contrato = self.validated_data['contrato_compra_venda']
+			# creates instance
+			# contrato_instance = ContratoCompraVenda.objects.create(**contrato)
 
 		'''
 		# Save to database
