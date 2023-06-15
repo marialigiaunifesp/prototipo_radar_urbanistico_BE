@@ -33,9 +33,22 @@ class Arquivo(models.Model):
         db_table = 'arquivo'
 
 
+class ContratoCompraVenda(models.Model):
+    id_contrato_compra_venda = models.BigAutoField(primary_key=True)
+    nome_empreendimento = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'contrato_compra_venda'
+
+
 class Documento(models.Model):
     id_documento = models.BigAutoField(primary_key=True)
+    id_processo_judicial = models.ForeignKey('ProcessoJudicial', models.DO_NOTHING, db_column='id_processo_judicial', blank=True, null=True)
+    id_matricula_imovel = models.ForeignKey('MatriculaImovel', models.DO_NOTHING, db_column='id_matricula_imovel', blank=True, null=True)
     id_oficio = models.ForeignKey('Oficio', models.DO_NOTHING, db_column='id_oficio', blank=True, null=True)
+    id_compra_venda = models.ForeignKey(ContratoCompraVenda, models.DO_NOTHING, db_column='id_compra_venda', blank=True, null=True)
+    id_vistoria = models.ForeignKey('Vistoria', models.DO_NOTHING, db_column='id_vistoria', blank=True, null=True)
     coordinates = models.TextField(blank=True, null=True)  # This field type is a guess.
     data_atualizacao = models.DateField(blank=True, null=True)
     ultima_versao = models.BooleanField(blank=True, null=True)
@@ -72,6 +85,31 @@ class Instituicao(models.Model):
         db_table = 'instituicao'
 
 
+class MatriculaImovel(models.Model):
+    id_matricula_imovel = models.BigAutoField(primary_key=True)
+    numero = models.TextField(blank=True, null=True)
+    numero_antigo = models.TextField(blank=True, null=True)
+    cri = models.TextField(blank=True, null=True)
+    comarca = models.TextField(blank=True, null=True)
+    inscricao_imobiliaria = models.TextField(blank=True, null=True)
+    endereco = models.TextField(blank=True, null=True)
+    bairro = models.TextField(blank=True, null=True)
+    regiao = models.TextField(blank=True, null=True)
+    denominacao_imovel = models.TextField(blank=True, null=True)
+    codigo_incra = models.TextField(blank=True, null=True)
+    sicar = models.TextField(blank=True, null=True)
+    sicar_sp = models.TextField(blank=True, null=True)
+    proprietario = models.TextField(blank=True, null=True)
+    vendedor = models.TextField(blank=True, null=True)
+    forma_aquisicao = models.TextField(blank=True, null=True)
+    data_transacao = models.TextField(blank=True, null=True)
+    ccir = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'matricula_imovel'
+
+
 class Oficio(models.Model):
     id_oficio = models.BigAutoField(primary_key=True)
     numero = models.BigIntegerField(blank=True, null=True)
@@ -105,6 +143,37 @@ class Pessoa(models.Model):
         db_table = 'pessoa'
 
 
+class ProcessoJudicial(models.Model):
+    id_processo_judicial = models.BigAutoField(primary_key=True)
+    numero_processo = models.TextField(blank=True, null=True)
+    nome_parte_requerente = models.TextField(blank=True, null=True)
+    nome_parte_requerida = models.TextField(blank=True, null=True)
+    rg_requerida = models.TextField(blank=True, null=True)
+    rg_requerente = models.TextField(blank=True, null=True)
+    cpf_requetida = models.TextField(blank=True, null=True)
+    cpf_requerente = models.TextField(blank=True, null=True)
+    numero_carta = models.TextField(blank=True, null=True)
+    nome_advogado = models.TextField(blank=True, null=True)
+    oab = models.TextField(blank=True, null=True)
+    documento_delegacia = models.TextField(blank=True, null=True)
+    cda = models.TextField(blank=True, null=True)
+    classe = models.TextField(blank=True, null=True)
+    area = models.TextField(blank=True, null=True)
+    assunto = models.TextField(blank=True, null=True)
+    foro = models.TextField(blank=True, null=True)
+    vara = models.TextField(blank=True, null=True)
+    juiz = models.TextField(blank=True, null=True)
+    confte = models.TextField(blank=True, null=True)
+    data_movimentacoes = models.TextField(blank=True, null=True)
+    despacho = models.TextField(blank=True, null=True)
+    codigo_consulta_processo = models.TextField(blank=True, null=True)
+    prazo_manifestacao_judicial = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'processo_judicial'
+
+
 class SpatialRefSys(models.Model):
     srid = models.IntegerField(primary_key=True)
     auth_name = models.CharField(max_length=256, blank=True, null=True)
@@ -135,3 +204,26 @@ class Usuario(models.Model):
     class Meta:
         managed = False
         db_table = 'usuario'
+
+
+class Vistoria(models.Model):
+    id_vistoria = models.BigAutoField(primary_key=True)
+    data = models.TextField(blank=True, null=True)
+    energia_eletrica = models.TextField(blank=True, null=True)
+    abastecimento_agua = models.TextField(blank=True, null=True)
+    coleta_tratamento_esgoto = models.TextField(blank=True, null=True)
+    iluminacao_publica = models.TextField(blank=True, null=True)
+    drenagem_pluvial = models.TextField(blank=True, null=True)
+    pavimentacao = models.TextField(blank=True, null=True)
+    local_parcelada = models.TextField(blank=True, null=True)
+    existencia_edificacoes = models.TextField(blank=True, null=True)
+    quantidade_aproximada_edificacoes = models.TextField(blank=True, null=True)
+    uso_constatado = models.TextField(blank=True, null=True)
+    ponto_atencao = models.TextField(blank=True, null=True)
+    lotes_demarcados = models.TextField(blank=True, null=True)
+    coleta_residuos_solidos = models.TextField(blank=True, null=True)
+    proximidade_local_transporte = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'vistoria'

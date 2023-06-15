@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import AreaAnalise, Arquivo, Documento, Historico, Instituicao, Oficio, Permissao, Pessoa, Usuario
+from .models import *
 
 # Register your models here.
 
@@ -13,3 +13,7 @@ admin.site.register(Oficio)
 admin.site.register(Permissao)
 admin.site.register(Pessoa)
 admin.site.register(Usuario)
+admin.site.register(ContratoCompraVenda)
+admin.site.register(Vistoria)
+admin.site.register(MatriculaImovel)
+admin.site.register(ProcessoJudicial)
