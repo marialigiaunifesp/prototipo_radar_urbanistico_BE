@@ -5,17 +5,14 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-# from django.db import models
 from django.contrib.gis.db import models
 
 
 class AreaAnalise(models.Model):
     id_area = models.BigAutoField(primary_key=True)
     id_historico = models.ForeignKey('Historico', models.DO_NOTHING, db_column='id_historico', blank=True, null=True)
-    srid_projecao = models.ForeignKey('SpatialRefSys', models.DO_NOTHING, db_column='srid_projecao', blank=True, null=True)
     nome = models.TextField(blank=True, null=True)
     nome_alternativo = models.TextField(blank=True, null=True)
-    area = models.TextField(blank=True, null=True)  # This field type is a guess.
     endereco = models.TextField(blank=True, null=True)
     referencia = models.TextField(blank=True, null=True)
     data_ultima_alteracao = models.DateField(blank=True, null=True)
@@ -122,7 +119,7 @@ class Documento(models.Model):
     id_datageo = models.ForeignKey(Datageo, models.DO_NOTHING, db_column='id_datageo', blank=True, null=True)
     id_diversas_fontes = models.ForeignKey(DiversasFontes, models.DO_NOTHING, db_column='id_diversas_fontes', blank=True, null=True)
     id_srid_projecao = models.ForeignKey('SpatialRefSys', models.DO_NOTHING, db_column='id_srid_projecao', blank=True, null=True)
-    coordinates = models.PointField(blank=True, null=True)
+    coordinates = models.PointField(srid=0, blank=True, null=True)
     data_atualizacao = models.DateField(blank=True, null=True)
     ultima_versao = models.BooleanField(blank=True, null=True)
 
@@ -302,6 +299,28 @@ class SpatialRefSys(models.Model):
     class Meta:
         managed = False
         db_table = 'spatial_ref_sys'
+
+
+class Sicar(models.Model):
+    id_sicar = models.BigAutoField(primary_key=True)
+    id_area = models.ForeignKey(AreaAnalise, models.DO_NOTHING, db_column='id_area', blank=True, null=True)
+    srid_projecao = models.ForeignKey('SpatialRefSys', models.DO_NOTHING, db_column='srid_projecao', blank=True, null=True)
+    cod_imovel = models.TextField(blank=True, null=True)
+    num_area = models.TextField(blank=True, null=True)
+    cod_estado = models.TextField(blank=True, null=True)
+    nom_munici = models.TextField(blank=True, null=True)
+    num_modulo = models.TextField(blank=True, null=True)
+    tipo_imovel = models.TextField(blank=True, null=True)
+    situacao = models.TextField(blank=True, null=True)
+    condicao_i = models.TextField(blank=True, null=True)
+    geom = models.PointField(srid=0, blank=True, null=True)
+    parent_identifier = models.TextField(blank=True, null=True)
+    title = models.TextField(blank=True, null=True)
+    abstract = models.DateField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sicar'
 
 
 class Usuario(models.Model):
