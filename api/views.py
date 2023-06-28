@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework import status
-from .serializers import FormSerializer, CoordinateSerializer
+from .serializers import FormSerializer, CoordinateSerializer, SicarSerializer
 import io
 from .models import *
 
@@ -31,6 +31,15 @@ def coordinateCreate(request):
 	else:
 		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+@csrf_exempt
+def getSicar(request):
+	# sl = serialize("geojson", [Sicar.objects.get(id_sicar = 4)], geometry_field="Point")
+	obj = Sicar.objects.get(id_sicar = 4)
+	serializer = SicarSerializer(obj)
+	serializer_data = serializer.data
+	serializer_data['crs'] = { "type": "name", "properties": { "name": "EPSG::3857" }}
+	return Response(serializer_data)
 
 '''
 @api_view(['POST'])

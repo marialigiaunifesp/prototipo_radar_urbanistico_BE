@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.gis.geos import Point
-
+from geojson_serializer.serializers import geojson_serializer
 
 '''
 # MODEL-BASED SERIALIZERS
@@ -159,46 +159,17 @@ class VistoriaSerializer(serializers.ModelSerializer):
 		if not data:
 			raise serializers.ValidationError("Must include at least one field")
 		return data
-'''
-class SicarSerializer(serializers.ModelSerializer) :
+
+@geojson_serializer('geom', 'crs')
+class SicarSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Sicar
 		fields = '__all__'
-
-	def validate(self, data):
-		if not data:
-			raise serializers.ValidationError("Must include at least one field")
-		return data
-'''
-
 
 '''
 # CUSTOM SERIALIZERS
 '''
 
-
-class PointField(serializers.Field):
-    def to_representation(self, value):
-        return "[%d, %d]" % (value[0], value[1])
-
-    def to_internal_value(self, data):
-        p1, p2 = data
-        return Point(p1, p2)
-
-		
-class SicarSerializer(serializers.Serializer) :
-	cod_imovel = serializers.CharField(required = False)
-	num_area = serializers.FloatField(required = False)
-	cod_estado = serializers.CharField(required = False)
-	nom_munici = serializers.CharField(required = False)
-	num_modulo = serializers.CharField(required = False)
-	tipo_imovel = serializers.CharField(required = False)
-	situacao = serializers.CharField(required = False)
-	condicao_i = serializers.CharField(required = False)
-	geom = PointField(required = False)
-	parent_identifier = serializers.CharField(required = False)
-	title = serializers.CharField(required = False)
-	abstract = serializers.DateField(required = False)
 
 class FormSerializer(serializers.Serializer):
 	# Native datypes
@@ -317,14 +288,3 @@ class CoordinateSerializer(serializers.Serializer):
 					coord_instance.save()
 		
 		return coord_instance
-
-
-'''
-class MapSerializer(serializers.Serializer):
-	coordinates = serializers.ListField(
-		child = serializers.FloatField()
-	)
-
-	def create(self, validated_data):
-		return Map(**validated_data)
-'''
