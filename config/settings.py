@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'api.apps.ApiConfig',
+    'geojson_serializer',
 
     # DEFAULT 
     'django.contrib.admin',
