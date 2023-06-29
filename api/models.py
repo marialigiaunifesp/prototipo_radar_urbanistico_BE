@@ -313,7 +313,7 @@ class Sicar(models.Model):
     tipo_imovel = models.TextField(blank=True, null=True)
     situacao = models.TextField(blank=True, null=True)
     condicao_i = models.TextField(blank=True, null=True)
-    geom = models.PointField(srid=0, blank=True, null=True)
+    geom = models.PolygonField(srid=0, blank=True, null=True)
     parent_identifier = models.TextField(blank=True, null=True)
     title = models.TextField(blank=True, null=True)
     abstract = models.DateField(blank=True, null=True)
