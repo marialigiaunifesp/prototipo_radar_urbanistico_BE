@@ -10,6 +10,7 @@ from django.contrib.gis.db import models
 
 class AreaAnalise(models.Model):
     id_area = models.BigAutoField(primary_key=True)
+    id_sicar = models.ForeignKey('Sicar', models.DO_NOTHING, db_column='id_sicar', blank=True, null=True)
     id_historico = models.ForeignKey('Historico', models.DO_NOTHING, db_column='id_historico', blank=True, null=True)
     nome = models.TextField(blank=True, null=True)
     nome_alternativo = models.TextField(blank=True, null=True)
@@ -302,21 +303,16 @@ class SpatialRefSys(models.Model):
 
 
 class Sicar(models.Model):
-    id_sicar = models.BigAutoField(primary_key=True)
-    id_area = models.ForeignKey(AreaAnalise, models.DO_NOTHING, db_column='id_area', blank=True, null=True)
-    srid_projecao = models.ForeignKey('SpatialRefSys', models.DO_NOTHING, db_column='srid_projecao', blank=True, null=True)
-    cod_imovel = models.TextField(blank=True, null=True)
-    num_area = models.TextField(blank=True, null=True)
-    cod_estado = models.TextField(blank=True, null=True)
-    nom_munici = models.TextField(blank=True, null=True)
-    num_modulo = models.TextField(blank=True, null=True)
-    tipo_imovel = models.TextField(blank=True, null=True)
-    situacao = models.TextField(blank=True, null=True)
-    condicao_i = models.TextField(blank=True, null=True)
-    geom = models.PolygonField(srid=0, blank=True, null=True)
-    parent_identifier = models.TextField(blank=True, null=True)
-    title = models.TextField(blank=True, null=True)
-    abstract = models.DateField(blank=True, null=True)
+    id_sicar = models.AutoField(primary_key=True)
+    geom = models.MultiPolygonField(srid=4674, blank=True, null=True)
+    cod_imovel = models.CharField(db_column='COD_IMOVEL', blank=True, null=True)  # Field name made lowercase.
+    num_area = models.FloatField(db_column='NUM_AREA', blank=True, null=True)  # Field name made lowercase.
+    cod_estado = models.CharField(db_column='COD_ESTADO', blank=True, null=True)  # Field name made lowercase.
+    nom_munici = models.CharField(db_column='NOM_MUNICI', blank=True, null=True)  # Field name made lowercase.
+    num_modulo = models.FloatField(db_column='NUM_MODULO', blank=True, null=True)  # Field name made lowercase.
+    tipo_imove = models.CharField(db_column='TIPO_IMOVE', blank=True, null=True)  # Field name made lowercase.
+    situacao = models.CharField(db_column='SITUACAO', blank=True, null=True)  # Field name made lowercase.
+    condicao_i = models.CharField(db_column='CONDICAO_I', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
