@@ -170,11 +170,12 @@ class SicarSerializer(serializers.ModelSerializer):
 '''
 # CUSTOM SERIALIZERS
 '''
+
 class FormSerializer(serializers.Serializer):
 	# Native datypes
 	dataDocumento = serializers.CharField(required = False)
 	referencia = serializers.CharField(required = False)
-	id_area = serializers.IntegerField()
+	id_sicar = serializers.IntegerField()
 
 	# Nested datatypes
 	boletim_oficial = BoletimOficialSerializer(required = False)
@@ -193,12 +194,12 @@ class FormSerializer(serializers.Serializer):
 	vistoria = VistoriaSerializer(required = False)
 
 	def save(self):
-		id_area_obj = self.validated_data['id_area']
-		if(AreaAnalise.objects.filter(id_sicar = id_area_obj).exists()):
-			area = AreaAnalise.objects.get(id_sicar = id_area_obj)
+		id_sicar_obj = self.validated_data['id_sicar']
+		if(AreaAnalise.objects.filter(id_sicar = id_sicar_obj).exists()):
+			area = AreaAnalise.objects.get(id_sicar = id_sicar_obj)
 		else:
 			area = AreaAnalise()
-			area.id_sicar = Sicar(id_area_obj)
+			area.id_sicar = Sicar(id_sicar_obj)
 			area.save()
 
 
@@ -280,7 +281,7 @@ class FormSerializer(serializers.Serializer):
 			doc.id_vistoria = vistoria_instance
 
 		# Save to database
-		# doc.save()
+		doc.save()
 		# history.save()
 		# return sicar
 
@@ -289,19 +290,16 @@ class GeometrySerializer(serializers.Serializer):
 		child = serializers.FloatField()
 	)
 
-class FeatureSerializer(serializers.Serializer):
-	geometry = GeometrySerializer()
-
-class CoordinateSerializer(serializers.Serializer):
-	features = FeatureSerializer(many = True)
+class FileSerializer(serializers.Serializer):
+	arquivo = serializers.FileField()
 
 	def save(self):
+		if arquivo in self.validated:
+			file = Arquivo(arquivo = arquivo)
+			file.save()
+			return file
+		return 
 
-		if('features' in self.validated_data):
-			if('geometry' in self.validated_data['features'][0]):
-				if('coordinates' in self.validated_data['features'][0]['geometry']):
-					coord_obj = self.validated_data['features'][0]['geometry']['coordinates']
-					coord_instance = Documento(coordinates = Point(coord_obj[0], coord_obj[1]))
-					coord_instance.save()
-		
-		return coord_instance
+
+class FeatureSerializer(serializers.Serializer):
+	geometry = GeometrySerializer()

@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework import status
-from .serializers import FormSerializer, CoordinateSerializer, SicarSerializer
+from .serializers import FormSerializer, SicarSerializer, FileSerializer
 import io
 from .models import *
 from django.core.serializers import serialize
@@ -12,8 +12,8 @@ import json
 @api_view(['POST'])
 @csrf_exempt
 def formCreate(request):
-	# print(request.data)
 	serializer = FormSerializer(data = request.data)
+
 	if(serializer.is_valid()):
 		obj = serializer.save()
 		return Response(serializer.data, status = status.HTTP_201_CREATED)
@@ -21,17 +21,19 @@ def formCreate(request):
 	else:
 		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['POST'])
 @csrf_exempt
-def coordinateCreate(request):
-	serializer = SicarSerializer(data = request.data)
+def formFile(request):
+	serializer = FileSerializer(data = request.data)
+	if 'arquivo' in request.FILES:
+		print('its')
 	if(serializer.is_valid()):
 		obj = serializer.save()
 		return Response(serializer.data, status = status.HTTP_201_CREATED)
-
+	
 	else:
 		return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 @csrf_exempt
