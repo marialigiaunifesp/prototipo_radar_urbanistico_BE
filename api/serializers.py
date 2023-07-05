@@ -285,11 +285,6 @@ class FormSerializer(serializers.Serializer):
 		# history.save()
 		# return sicar
 
-class GeometrySerializer(serializers.Serializer):
-	coordinates = serializers.ListField(
-		child = serializers.FloatField()
-	)
-
 class FileSerializer(serializers.Serializer):
 	arquivo = serializers.FileField()
 
@@ -299,7 +294,3 @@ class FileSerializer(serializers.Serializer):
 			file.save()
 			return file
 		return 
-
-
-class FeatureSerializer(serializers.Serializer):
-	geometry = GeometrySerializer()
