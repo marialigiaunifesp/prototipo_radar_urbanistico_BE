@@ -84,5 +84,6 @@ class DocumentoView(generics.ListAPIView):
 	def get_queryset(self):
 		id_sicar = self.kwargs.get(self.lookup_url_kwarg)
 		area = AreaAnalise.objects.get(id_sicar = id_sicar)
+		
 		documento = Documento.objects.filter(id_area = area.id_area)
 		return documento

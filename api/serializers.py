@@ -165,12 +165,39 @@ class VistoriaSerializer(serializers.ModelSerializer):
 		return data
 
 class DocumentoSerializer(serializers.ModelSerializer):
-	id_matricula_imovel = MatriculaSerializer()
-	id_oficio = OficioSerializer()
+	id_boletim_oficial = BoletimOficialSerializer(required=False, allow_null=True)
+	id_conhecimento_lugar = ConhecimentoLugarSerializer(required=False, allow_null=True)
+	id_contrato_compra_venda = ContratoSerializer(required=False, allow_null=True)
+	id_datageo = DatageoSerializer(required=False, allow_null=True)
+	id_datageo_ambiente = DatageoAmbienteSerializer(required=False, allow_null=True)
+	id_diversas_fontes = DiversasFontesSerializer(required=False, allow_null=True)
+	id_ficha_socioeconomico = FichaSocioeconomicoSerializer(required=False, allow_null=True)
+	id_ibge = IbgeSerializer(required=False, allow_null=True)
+	id_legislacao = LegislacaoSerializer(required=False, allow_null=True)
+	id_matricula_imovel = MatriculaSerializer(required=False, allow_null=True)
+	id_oficio = OficioSerializer(required=False, allow_null=True)
+	id_processo_administrativo = ProcessoJudicialSerializer(required=False, allow_null=True)
+	id_processo_judicial = ProcessoJudicialSerializer(required=False, allow_null=True)
+	id_vistoria = VistoriaSerializer(required=False, allow_null=True)
 
 	class Meta:
 		model = Documento
-		fields = ['id_matricula_imovel', 'id_oficio']
+		fields = [
+		'id_boletim_oficial',
+		'id_conhecimento_lugar',
+		'id_contrato_compra_venda',
+		'id_datageo',
+		'id_datageo_ambiente',
+		'id_diversas_fontes',
+		'id_ficha_socioeconomico',
+		'id_ibge',
+		'id_legislacao',
+		'id_matricula_imovel',
+		'id_oficio',
+		'id_processo_administrativo',
+		'id_processo_judicial',
+		'id_vistoria',
+		]
 	"""
 	def get_id_matricula_imovel(self, instance):
 		id_matricula_imovel = instance.id_matricula_imovel.objects.all()
