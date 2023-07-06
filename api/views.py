@@ -48,19 +48,6 @@ def getSicar(request):
 	
 	return Response(serializer)
 
-@api_view(['GET'])
-@csrf_exempt
-def getInfo(request, id_sicar):
-	area = AreaAnalise.objects.get(id_sicar = id_sicar)
-	docs = Documento.objects.filter(id_area = area.id_area).exclude(id_matricula_imovel = None)
-	mi_set = [doc.id_matricula_imovel for doc in docs]
-	mi_serializer = MatriculaSerializer(mi_set, many=True)
-	clean_data = mi_serializer.to_representation(mi_serializer.data)
-	form_data = FormSerializer(mi_serializer.data[0])
-	teste = Doc()
-	return Response(teste)
-	# return Response(mi_serializer.data)
-
 @api_view(['POST'])
 @csrf_exempt
 def token(request):
