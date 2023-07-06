@@ -120,13 +120,17 @@ class FormSerializer(serializers.Serializer):
 		# Save to database
 		doc.save()
 		# history.save()
-		# return sicar
+		return doc
 
 class FileSerializer(serializers.Serializer):
 	arquivo = serializers.FileField()
+	id_documento = serializers.IntegerField()
 
-	def save(self):
-		arquivo = self.validated_data.get("arquivo")
+	def save(self, id_documento):
+		arquivo = self.validated_data.get('arquivo')
 		file = Arquivo(arquivo = arquivo.read())
 		file.save()
-		return file
+		doc = Documento.objects.get(id_documento = id_documento)
+		doc.id_arquivo = file
+		doc.save()
+		return doc

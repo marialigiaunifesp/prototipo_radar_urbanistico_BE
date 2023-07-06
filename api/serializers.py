@@ -116,6 +116,10 @@ class MatriculaSerializer(serializers.ModelSerializer):
 			raise serializers.ValidationError("Must include at least one field")
 		return data
 
+	def to_representation(self, instance):
+		data = super().to_representation(instance)
+		return {key: value for key, value in data.items() if value is not None}
+
 # Oficio
 class OficioSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -159,6 +163,25 @@ class VistoriaSerializer(serializers.ModelSerializer):
 		if not data:
 			raise serializers.ValidationError("Must include at least one field")
 		return data
+
+class DocumentoSerializer(serializers.ModelSerializer):
+	id_matricula_imovel = MatriculaSerializer()
+	id_oficio = OficioSerializer()
+
+	class Meta:
+		model = Documento
+		fields = ['id_matricula_imovel', 'id_oficio']
+	"""
+	def get_id_matricula_imovel(self, instance):
+		id_matricula_imovel = instance.id_matricula_imovel.objects.all()
+		if id_matricula_imovel.exists():
+			return MatriculaSerializer(id_matricula_imovel, many = True).data
+		else:
+			return None
+	"""
+
+	
+
 
 @geojson_serializer('geom')
 class SicarSerializer(serializers.ModelSerializer):
