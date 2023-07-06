@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework import status, generics
-from .custom_serializers import FormSerializer, SicarSerializer, FileSerializer
+from .custom_serializers import FormSerializer, FileSerializer
 from .serializers import *
 import io
 from .models import *
@@ -61,6 +61,26 @@ def getInfo(request, id_sicar):
 	return Response(teste)
 	# return Response(mi_serializer.data)
 
+@api_view(['POST'])
+@csrf_exempt
+def token(request):
+	try:
+		user_obj = Usuario.objects.get(login = request.data['username'], senha_criptografa = request.data['password'])
+
+	except Usuario.DoesNotExist:
+		return Response (status = 205)
+
+	except Usuario.MultipleObjectsReturned:
+		return Response(status = 205)
+
+	else:
+		serializer = UsuarioSerializer(user_obj)
+		if serializer.is_valid:
+			return Response(serializer.data, status.HTTP_200_OK)
+		else:
+			return Response(status = status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+		
 
 def download_arquivo(request, id_arquivo):
     arquivo = get_object_or_404(Arquivo, id_arquivo=id_arquivo)
@@ -69,7 +89,6 @@ def download_arquivo(request, id_arquivo):
     with open('file.ext', 'wb') as f:
     	f.write(arquivo.arquivo)
     return response
-
 
 class DocumentoView(generics.ListAPIView):
 	serializer_class = DocumentoSerializer

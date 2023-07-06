@@ -334,6 +334,9 @@ class Usuario(models.Model):
     telefone1 = models.BigIntegerField(blank=True, null=True)
     telefone2 = models.BigIntegerField(blank=True, null=True)
 
+    def token(self):
+        return "J7bD5pX9qR3wM2sZ8tN6";
+
     class Meta:
         managed = False
         db_table = 'usuario'

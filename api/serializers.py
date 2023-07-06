@@ -179,9 +179,12 @@ class DocumentoSerializer(serializers.ModelSerializer):
 		else:
 			return None
 	"""
+class UsuarioSerializer(serializers.ModelSerializer):
+	token = serializers.ReadOnlyField()
 
-	
-
+	class Meta:
+		model = Usuario
+		fields = ['login', 'token']
 
 @geojson_serializer('geom')
 class SicarSerializer(serializers.ModelSerializer):
