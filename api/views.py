@@ -71,7 +71,12 @@ def download_arquivo(request, id_arquivo):
     return response
 
 
-class Doc(generics.ListAPIView):
-	area = AreaAnalise.objects.get(id_sicar = 1336)
-	queryset = Documento.objects.filter(id_area = area.id_area)
+class DocumentoView(generics.ListAPIView):
 	serializer_class = DocumentoSerializer
+	lookup_url_kwarg = 'id_sicar'
+
+	def get_queryset(self):
+		id_sicar = self.kwargs.get(self.lookup_url_kwarg)
+		area = AreaAnalise.objects.get(id_sicar = id_sicar)
+		documento = Documento.objects.filter(id_area = area.id_area)
+		return documento
