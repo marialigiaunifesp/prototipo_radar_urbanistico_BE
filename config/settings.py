@@ -94,10 +94,10 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'db_m2p4',
+        'NAME': 'db_m2p4_aul9',
         'USER': 'usuario_teste',
-        'PASSWORD': 'xd7iUPV7Jih5c7iFOqyLKQuiEb4ElRXu',
-        'HOST': 'dpg-chimsud269v2e2ai4bp0-a.oregon-postgres.render.com',
+        'PASSWORD': '5CaBJztFtKfN4sScc2YjjT7GgZCpFY4h',
+        'HOST': 'dpg-cnna707109ks73fvjg80-a.oregon-postgres.render.com',
         'PORT': '5432',
         'OPTIONS': {
             'options' : '-c search_path=public,django'
@@ -105,10 +105,10 @@ DATABASES = {
     },
     'django': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'db_m2p4',
+        'NAME': 'db_m2p4_aul9',
         'USER': 'usuario_teste',
-        'PASSWORD': 'xd7iUPV7Jih5c7iFOqyLKQuiEb4ElRXu',
-        'HOST': 'dpg-chimsud269v2e2ai4bp0-a.oregon-postgres.render.com',
+        'PASSWORD': '5CaBJztFtKfN4sScc2YjjT7GgZCpFY4h',
+        'HOST': 'dpg-cnna707109ks73fvjg80-a.oregon-postgres.render.com',
         'PORT': '5432',
         'OPTIONS': {
             'options' : '-c search_path=django'
@@ -162,3 +162,52 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CORS SETTINGS
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    # 'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[{server_time}] {message}',
+            'style': '{',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            #'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            #'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
