@@ -304,15 +304,15 @@ class SpatialRefSys(models.Model):
 
 class Sicar(models.Model):
     id_sicar = models.AutoField(primary_key=True)
-    geom = models.MultiPolygonField(srid=4674, blank=True, null=True)
-    cod_imovel = models.CharField(db_column='COD_IMOVEL', blank=True, null=True)  # Field name made lowercase.
-    num_area = models.FloatField(db_column='NUM_AREA', blank=True, null=True)  # Field name made lowercase.
-    cod_estado = models.CharField(db_column='COD_ESTADO', blank=True, null=True)  # Field name made lowercase.
-    nom_munici = models.CharField(db_column='NOM_MUNICI', blank=True, null=True)  # Field name made lowercase.
-    num_modulo = models.FloatField(db_column='NUM_MODULO', blank=True, null=True)  # Field name made lowercase.
-    tipo_imove = models.CharField(db_column='TIPO_IMOVE', blank=True, null=True)  # Field name made lowercase.
-    situacao = models.CharField(db_column='SITUACAO', blank=True, null=True)  # Field name made lowercase.
-    condicao_i = models.CharField(db_column='CONDICAO_I', blank=True, null=True)  # Field name made lowercase.
+    geom = models.MultiPolygonField(srid=3857, blank=True, null=True)
+    cod_imovel = models.CharField(db_column='cod_imovel', blank=True, null=True)  # Field name made lowercase.
+    num_area = models.FloatField(db_column='num_area', blank=True, null=True)  # Field name made lowercase.
+    cod_estado = models.CharField(db_column='cod_estado', blank=True, null=True)  # Field name made lowercase.
+    nom_munici = models.CharField(db_column='nom_munici', blank=True, null=True)  # Field name made lowercase.
+    num_modulo = models.FloatField(db_column='num_modulo', blank=True, null=True)  # Field name made lowercase.
+    tipo_imove = models.CharField(db_column='tipo_imovel', blank=True, null=True)  # Field name made lowercase.
+    situacao = models.CharField(db_column='situacao', blank=True, null=True)  # Field name made lowercase.
+    condicao_i = models.CharField(db_column='condicao_i', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
